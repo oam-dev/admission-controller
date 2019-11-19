@@ -5,7 +5,7 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 type ScopeSpec struct {
 	Type                  string      `json:"type"`
 	AllowComponentOverlap bool        `json:"allowComponentOverlap"`
-	Parameters            []Parameter `json:"parameters"`
+	Parameters            []Parameter `json:"parameters,omitempty"`
 }
 
 type ScopeStatus struct {

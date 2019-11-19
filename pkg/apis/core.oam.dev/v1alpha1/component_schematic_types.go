@@ -13,11 +13,11 @@ const (
 
 type WorkloadSetting struct {
 	Name          string        `json:"name"`
-	Description   string        `json:"description"`
+	Description   string        `json:"description,omitempty"`
 	ParameterType ParameterType `json:"type"`
-	Required      bool          `json:"required"`
-	Default       string        `json:"default"`
-	FromParam     string        `json:"fromParam"`
+	Required      bool          `json:"required,omitempty"`
+	Default       string        `json:"default,omitempty"`
+	FromParam     string        `json:"fromParam,omitempty"`
 }
 
 /// CPU describes a CPU resource allocation for a container.
@@ -47,9 +47,9 @@ type GPU struct {
 type Volume struct {
 	Name          string        `json:"name"`
 	MountPath     string        `json:"mountPath"`
-	AccessMode    AccessMode    `json:"accessMode"`
-	SharingPolicy SharingPolicy `json:"sharingPolicy"`
-	Disk          Disk          `json:"disk"`
+	AccessMode    AccessMode    `json:"accessMode,omitempty"`
+	SharingPolicy SharingPolicy `json:"sharingPolicy,omitempty"`
+	Disk          *Disk         `json:"disk,omitempty"`
 }
 
 /// AccessMode defines the access modes for file systems.
@@ -75,7 +75,7 @@ const (
 // Disk describes the disk requirements for backing a Volume.
 type Disk struct {
 	Required  string `json:"required"`
-	Ephemeral bool   `json:"ephemeral"`
+	Ephemeral bool   `json:"ephemeral,omitempty"`
 }
 
 type ExtendedResource struct {
@@ -86,21 +86,21 @@ type ExtendedResource struct {
 type Resources struct {
 	Cpu      CPU                `json:"cpu"`
 	Memory   Memory             `json:"memory"`
-	Gpu      GPU                `json:"gpu"`
-	Volumes  []Volume           `json:"volumes"`
-	Extended []ExtendedResource `json:"extended"`
+	Gpu      GPU                `json:"gpu,omitempty"`
+	Volumes  []Volume           `json:"volumes,omitempty"`
+	Extended []ExtendedResource `json:"extended,omitempty"`
 }
 
 type Env struct {
 	Name      string `json:"name"`
-	Value     string `json:"value"`
-	FromParam string `json:"fromParam"`
+	Value     string `json:"value,omitempty"`
+	FromParam string `json:"fromParam,omitempty"`
 }
 
 type Port struct {
 	Name          string       `json:"name"`
 	ContainerPort int32        `json:"port"`
-	Protocol      PortProtocol `json:"protocol"`
+	Protocol      PortProtocol `json:"protocol,omitempty"`
 }
 
 type Exec struct {
@@ -123,34 +123,34 @@ type TcpSocket struct {
 }
 
 type HealthProbe struct {
-	Exec                Exec      `json:"exec"`
-	HttpGet             HttpGet   `json:"httpGet"`
-	TcpSocket           TcpSocket `json:"tcpSocket"`
-	InitialDelaySeconds int32     `json:"initialDelaySeconds"`
-	PeriodSeconds       int32     `json:"periodSeconds"`
-	TimeoutSeconds      int32     `json:"timeoutSeconds"`
-	SuccessThreshold    int32     `json:"successThreshold"`
-	FailureThreshold    int32     `json:"failureThreshold"`
+	Exec                *Exec      `json:"exec,omitempty"`
+	HttpGet             *HttpGet   `json:"httpGet,omitempty"`
+	TcpSocket           *TcpSocket `json:"tcpSocket,omitempty"`
+	InitialDelaySeconds int32      `json:"initialDelaySeconds,omitempty"`
+	PeriodSeconds       int32      `json:"periodSeconds,omitempty"`
+	TimeoutSeconds      int32      `json:"timeoutSeconds,omitempty"`
+	SuccessThreshold    int32      `json:"successThreshold,omitempty"`
+	FailureThreshold    int32      `json:"failureThreshold,omitempty"`
 }
 
 type ConfigFile struct {
 	Path      string `json:"path"`
-	Value     string `json:"value"`
-	FromParam string `json:"fromParam"`
+	Value     string `json:"value,omitempty"`
+	FromParam string `json:"fromParam,omitempty"`
 }
 
 type Container struct {
 	Name            string       `json:"name"`
 	Image           string       `json:"image"`
 	Resources       Resources    `json:"resources"`
-	Cmd             []string     `json:"cmd"`
-	Args            []string     `json:"args"`
-	Env             []Env        `json:"env"`
-	Config          []ConfigFile `json:"config"`
-	Ports           []Port       `json:"ports"`
-	LivenessProbe   HealthProbe  `json:"livenessProbe"`
-	ReadinessProbe  HealthProbe  `json:"readinessProbe"`
-	ImagePullSecret string       `json:"imagePullSecret"`
+	Cmd             []string     `json:"cmd,omitempty"`
+	Args            []string     `json:"args,omitempty"`
+	Env             []Env        `json:"env,omitempty"`
+	Config          []ConfigFile `json:"config,omitempty"`
+	Ports           []Port       `json:"ports,omitempty"`
+	LivenessProbe   *HealthProbe `json:"livenessProbe,omitempty"`
+	ReadinessProbe  *HealthProbe `json:"readinessProbe,omitempty"`
+	ImagePullSecret string       `json:"imagePullSecret,omitempty"`
 }
 
 type ParameterType string
@@ -164,20 +164,20 @@ const (
 
 type Parameter struct {
 	Name          string        `json:"name"`
-	Description   string        `json:"description"`
+	Description   string        `json:"description,omitempty"`
 	ParameterType ParameterType `json:"type"`
-	Required      bool          `json:"required"`
-	Default       string        `json:"default"`
+	Required      bool          `json:"required,omitempty"`
+	Default       string        `json:"default,omitempty"`
 }
 
 // ComponentSpec defines the desired state of ComponentSchematic
 type ComponentSpec struct {
-	Parameters       []Parameter       `json:"parameters"`
+	Parameters       []Parameter       `json:"parameters,omitempty"`
 	WorkloadType     string            `json:"workloadType"`
-	OsType           string            `json:"osType"`
-	Arch             string            `json:"arch"`
-	Containers       []Container       `json:"containers"`
-	WorkloadSettings []WorkloadSetting `json:"workloadSettings"`
+	OsType           string            `json:"osType,omitempty"`
+	Arch             string            `json:"arch,omitempty"`
+	Containers       []Container       `json:"containers,omitempty"`
+	WorkloadSettings []WorkloadSetting `json:"workloadSettings,omitempty"`
 }
 
 type ComponentStatus struct {
