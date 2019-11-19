@@ -10,7 +10,7 @@ type TraitBinding struct {
 
 	// A properties object (for trait and scope configuration) is an object whose structure is determined by the trait or scope property schema. It may be a simple value, or it may be a complex object.
 	// Properties are validated against the schema appropriate for the trait or scope.
-	Properties string `json:"properties"`
+	Properties string `json:"properties,omitempty"`
 }
 
 /// A value that is substituted into a parameter.
@@ -27,9 +27,9 @@ type ParameterValue struct {
 type ComponentConfiguration struct {
 	ComponentName     string           `json:"componentName"`
 	InstanceName      string           `json:"instanceName"`
-	ParameterValues   []ParameterValue `json:"parameterValues"`
-	Traits            []TraitBinding   `json:"traits"`
-	ApplicationScopes []string         `json:"applicationScopes"`
+	ParameterValues   []ParameterValue `json:"parameterValues,omitempty"`
+	Traits            []TraitBinding   `json:"traits,omitempty"`
+	ApplicationScopes []string         `json:"applicationScopes,omitempty"`
 }
 
 type ScopeBinding struct {
@@ -38,14 +38,14 @@ type ScopeBinding struct {
 
 	// A properties object (for trait and scope configuration) is an object whose structure is determined by the trait or scope property schema. It may be a simple value, or it may be a complex object.
 	// Properties are validated against the schema appropriate for the trait or scope.
-	Properties []map[string]intstr.IntOrString `json:"properties"`
+	Properties []map[string]intstr.IntOrString `json:"properties,omitempty"`
 }
 
 // ConfigurationSpec defines the desired state of ApplicationConfiguration
 type ApplicationConfigurationSpec struct {
-	Variables  []Variable               `json:"variables"`
+	Variables  []Variable               `json:"variables,omitempty"`
 	Scopes     []ScopeBinding           `json:"scopes,omitempty"`
-	Components []ComponentConfiguration `json:"components"`
+	Components []ComponentConfiguration `json:"components,omitempty"`
 }
 
 // ConfigurationStatus defines the observed state of ApplicationConfiguration
