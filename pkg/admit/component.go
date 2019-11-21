@@ -10,7 +10,7 @@ import (
 
 // validate Component Spec here
 func (a *Admit) ComponentSpec(ar v1beta1.AdmissionReview) *v1beta1.AdmissionResponse {
-	klog.V(2).Info("admitting Component Schematics")
+	klog.Info("admitting Component Schematics")
 	componentResource := metav1.GroupVersionResource{Group: common.AppConfigGroup, Version: common.AppConfigVersion, Resource: common.ComponentCRD}
 
 	if ar.Request.Resource != componentResource {

@@ -76,7 +76,7 @@ helm install admission ./charts/admission
 
 It will automatically check Application Configuration and other OAM resources when they are created or modified.
 
-## Contributing
+## Developing
 
 1. make dependency to you vendor files build building docker image
 

@@ -3,7 +3,7 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: {{ template "admission.fullname" . }}
   labels:
-  {{ include "admission.labels" . | indent 4 }}
+{{ include "admission.labels" . | indent 4 }}
 webhooks:
   - name: "mutate.appconfig.core.oam.dev"
     rules:
@@ -20,8 +20,8 @@ webhooks:
       caBundle: "{{.Values.caBundle}}"
     admissionReviewVersions: ["v1beta1"]
     timeoutSeconds: 5
----
 
+---
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
@@ -33,7 +33,7 @@ webhooks:
     rules:
       - apiGroups:   ["core.oam.dev"]
         apiVersions: ["v1alpha1"]
-        operations:  ["CREATE","UPDATE"]
+        operations:  ["CREATE", "UPDATE"]
         resources:   ["applicationconfigurations"]
         scope:       "Namespaced"
     clientConfig:
@@ -45,47 +45,47 @@ webhooks:
     admissionReviewVersions: ["v1beta1"]
     timeoutSeconds: 5
   - name: "validate.component.core.oam.dev"
-      rules:
-        - apiGroups:   ["core.oam.dev"]
-          apiVersions: ["v1alpha1"]
-          operations:  ["CREATE","UPDATE"]
-          resources:   ["components"]
-          scope:       "Namespaced"
-      clientConfig:
-        service:
-          namespace: {{.Release.Namespace}}
-          name: {{ template "admission.fullname" . }}
-          path: /component
-        caBundle: "{{.Values.caBundle}}"
-      admissionReviewVersions: ["v1beta1"]
-      timeoutSeconds: 5
+    rules:
+      - apiGroups:   ["core.oam.dev"]
+        apiVersions: ["v1alpha1"]
+        operations:  ["CREATE", "UPDATE"]
+        resources:   ["components"]
+        scope:       "Namespaced"
+    clientConfig:
+      service:
+        namespace: {{.Release.Namespace}}
+        name: {{ template "admission.fullname" . }}
+        path: /component
+      caBundle: "{{.Values.caBundle}}"
+    admissionReviewVersions: ["v1beta1"]
+    timeoutSeconds: 5
   - name: "validate.scope.core.oam.dev"
-      rules:
-        - apiGroups:   ["core.oam.dev"]
-          apiVersions: ["v1alpha1"]
-          operations:  ["CREATE","UPDATE"]
-          resources:   ["scopes"]
-          scope:       "Namespaced"
-      clientConfig:
-        service:
-          namespace: {{.Release.Namespace}}
-          name: {{ template "admission.fullname" . }}
-          path: /scope
-        caBundle: "{{.Values.caBundle}}"
-      admissionReviewVersions: ["v1beta1"]
-      timeoutSeconds: 5
+    rules:
+      - apiGroups:   ["core.oam.dev"]
+        apiVersions: ["v1alpha1"]
+        operations:  ["CREATE", "UPDATE"]
+        resources:   ["scopes"]
+        scope:       "Namespaced"
+    clientConfig:
+      service:
+        namespace: {{.Release.Namespace}}
+        name: {{ template "admission.fullname" . }}
+        path: /scope
+      caBundle: "{{.Values.caBundle}}"
+    admissionReviewVersions: ["v1beta1"]
+    timeoutSeconds: 5
   - name: "validate.trait.core.oam.dev"
-      rules:
-        - apiGroups:   ["core.oam.dev"]
-          apiVersions: ["v1alpha1"]
-          operations:  ["CREATE","UPDATE"]
-          resources:   ["traits"]
-          scope:       "Namespaced"
-      clientConfig:
-        service:
-          namespace: {{.Release.Namespace}}
-          name: {{ template "admission.fullname" . }}
-          path: /traits
-        caBundle: "{{.Values.caBundle}}"
-      admissionReviewVersions: ["v1beta1"]
-      timeoutSeconds: 5
+    rules:
+      - apiGroups:   ["core.oam.dev"]
+        apiVersions: ["v1alpha1"]
+        operations:  ["CREATE", "UPDATE"]
+        resources:   ["traits"]
+        scope:       "Namespaced"
+    clientConfig:
+      service:
+        namespace: {{.Release.Namespace}}
+        name: {{ template "admission.fullname" . }}
+        path: /traits
+      caBundle: "{{.Values.caBundle}}"
+    admissionReviewVersions: ["v1beta1"]
+    timeoutSeconds: 5

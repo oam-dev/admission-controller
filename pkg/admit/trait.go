@@ -10,11 +10,11 @@ import (
 
 // validate Trait Spec here
 func (a *Admit) TraitSpec(ar v1beta1.AdmissionReview) *v1beta1.AdmissionResponse {
-	klog.V(2).Info("admitting Trait")
+	klog.Info("admitting Trait")
 	traitResource := metav1.GroupVersionResource{Group: common.AppConfigGroup, Version: common.AppConfigVersion, Resource: common.TraitCRD}
 
 	if ar.Request.Resource != traitResource {
-		klog.Errorf("expect resource to be %s")
+		klog.Errorf("expect resource to be %s", traitResource)
 		return nil
 	}
 

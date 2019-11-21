@@ -10,11 +10,11 @@ import (
 
 // validate Scope Spec here
 func (a *Admit) ScopeSpec(ar v1beta1.AdmissionReview) *v1beta1.AdmissionResponse {
-	klog.V(2).Info("admitting Application Scope")
+	klog.Info("admitting Application Scope")
 	scopeResource := metav1.GroupVersionResource{Group: common.AppConfigGroup, Version: common.AppConfigVersion, Resource: common.ScopeCRD}
 
 	if ar.Request.Resource != scopeResource {
-		klog.Errorf("expect resource to be %s")
+		klog.Errorf("expect resource to be %s", scopeResource)
 		return nil
 	}
 
