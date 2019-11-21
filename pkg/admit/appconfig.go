@@ -49,7 +49,6 @@ func (a *Admit) AppConfigSpec(ar v1beta1.AdmissionReview) *v1beta1.AdmissionResp
 	if err := a.checkAppScopeInstance(&appConfig); err != nil {
 		return common.ToErrorResponse(err)
 	}
-	// TODO check component/trait variables and properties in AppConfig
 
 	reviewResponse := v1beta1.AdmissionResponse{}
 	reviewResponse.Allowed = true
@@ -144,9 +143,21 @@ func parseFromVariable(value string, variables []v1alpha1.Variable) (string, boo
 
 func (a *Admit) checkComponent(appConf *v1alpha1.ApplicationConfiguration) error {
 	for _, v := range appConf.Spec.Components {
-		_, err := a.componentInformer.Lister().ComponentSchematics(appConf.Namespace).Get(v.ComponentName)
+		comp, err := a.componentInformer.Lister().ComponentSchematics(appConf.Namespace).Get(v.ComponentName)
 		if err != nil {
 			return err
+		}
+		for _, p := range v.ParameterValues {
+			var found = false
+			for _, cp := range comp.Spec.Parameters {
+				if cp.Name == p.Name {
+					found = true
+					break
+				}
+			}
+			if !found {
+				return fmt.Errorf("component %s don't have this parameter %s", v.ComponentName, p.Name)
+			}
 		}
 	}
 	return nil
@@ -175,6 +186,7 @@ func (a *Admit) checkTrait(appConf *v1alpha1.ApplicationConfiguration) error {
 			if err != nil {
 				return err
 			}
+			//TODO check trait properties in AppConfig really exist in that Trait spec
 		}
 	}
 	return nil
