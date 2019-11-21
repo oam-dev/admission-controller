@@ -49,7 +49,7 @@ webhooks:
       - apiGroups:   ["core.oam.dev"]
         apiVersions: ["v1alpha1"]
         operations:  ["CREATE", "UPDATE"]
-        resources:   ["components"]
+        resources:   ["componentschematics"]
         scope:       "Namespaced"
     clientConfig:
       service:

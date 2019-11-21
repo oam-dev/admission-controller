@@ -13,6 +13,15 @@ const (
 	TraitCRD     = "traits"
 )
 
+const (
+	WorkloadServer          = "core.oam.dev/v1alpha1.Server"
+	WorkloadSingletonServer = "core.oam.dev/v1alpha1.SingletonServer"
+	WorkloadTask            = "core.oam.dev/v1alpha1.Task"
+	WorkloadSingletonTask   = "core.oam.dev/v1alpha1.SingletonTask"
+	WorkloadSingletonWorker = "core.oam.dev/v1alpha1.SingletonWorker"
+	WorkloadWorker          = "core.oam.dev/v1alpha1.Worker"
+)
+
 // ToErrorResponse is a helper function to create an AdmissionResponse
 // with an embedded error
 func ToErrorResponse(err error) *v1beta1.AdmissionResponse {

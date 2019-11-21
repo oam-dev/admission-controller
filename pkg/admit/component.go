@@ -1,6 +1,8 @@
 package admit
 
 import (
+	"fmt"
+
 	"github.com/oam-dev/admission-controller/common"
 	"github.com/oam-dev/admission-controller/pkg/apis/core.oam.dev/v1alpha1"
 	"k8s.io/api/admission/v1beta1"
@@ -25,10 +27,23 @@ func (a *Admit) ComponentSpec(ar v1beta1.AdmissionReview) *v1beta1.AdmissionResp
 		klog.Error(err)
 		return common.ToErrorResponse(err)
 	}
-
-	// TODO invalidate if a worker tries to bind to a port
+	if err := validateWorker(&comp); err != nil {
+		return common.ToErrorResponse(err)
+	}
 
 	reviewResponse := v1beta1.AdmissionResponse{}
 	reviewResponse.Allowed = true
 	return &reviewResponse
+}
+
+func validateWorker(comp *v1alpha1.ComponentSchematic) error {
+	if comp.Spec.WorkloadType != common.WorkloadSingletonWorker && comp.Spec.WorkloadType != common.WorkloadWorker {
+		return nil
+	}
+	for _, v := range comp.Spec.Containers {
+		if len(v.Ports) > 0 {
+			return fmt.Errorf("worker container named %s has a port declared", v.Name)
+		}
+	}
+	return nil
 }
