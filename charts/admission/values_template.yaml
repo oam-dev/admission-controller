@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: wonderflow/oam
-  tag: admission
+  repository: oamdev/admission
+  tag: latest
   pullPolicy: Always
 
 nameOverride: ""

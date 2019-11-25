@@ -9,7 +9,7 @@ it can be used by all OAM implementation for validation.
 ## Validation List
 
 1. checking component/trait existence for AppConfig
-2. check component/trait variables and properties in AppConfig
+2. check component/trait really have parameters or properties mentioned in AppConfig
 3. invalidate if a worker tries to bind to a port
 4. check component/trait/AppConfig format when created
 5. check application scope format when created
@@ -76,7 +76,7 @@ helm install admission ./charts/admission
 
 It will automatically check Application Configuration and other OAM resources when they are created or modified.
 
-## Contributing
+## Developing
 
 1. make dependency to you vendor files build building docker image
 
