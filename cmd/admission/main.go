@@ -79,6 +79,7 @@ func main() {
 	var config common.Config
 	config.AddFlags()
 	flag.StringVar(&healthAddr, "health-addr", ":9001", "health probe address")
+	flag.StringVar(&addr, "listen-addr", ":443", "listen address")
 	klog.InitFlags(nil)
 	flag.Parse()
 
@@ -99,7 +100,7 @@ func main() {
 	mux.HandleFunc("/scope", Serve(adm.ScopeSpec))
 	mux.HandleFunc("/traits", Serve(adm.TraitSpec))
 	server := http.Server{
-		Addr:      ":443",
+		Addr:      addr,
 		Handler:   mux,
 		TLSConfig: common.ConfigTLS(config),
 	}
