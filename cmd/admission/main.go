@@ -24,7 +24,7 @@ import (
 // admitFunc is the type we use for all of our validators and mutators
 type admitFunc func(v1beta1.AdmissionReview) *v1beta1.AdmissionResponse
 
-// serve handles the http portion of a request prior to handing to an admit
+// Serve handles the http portion of a request prior to handing to an admit
 // function
 func Serve(admit admitFunc) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -118,6 +118,7 @@ func main() {
 	})
 }
 
+// WaitForInterrupt serves function until a system signal was received
 func WaitForInterrupt(interrupt func()) {
 
 	// Set up channel on which to send signal notifications.

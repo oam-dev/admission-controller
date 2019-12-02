@@ -1,16 +1,24 @@
 package common
 
-import "k8s.io/api/admission/v1beta1"
-import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	"k8s.io/api/admission/v1beta1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
 
 const (
-	AppConfigGroup   = "core.oam.dev"
-	AppConfigVersion = "v1alpha1"
-	AppConfigCRD     = "applicationconfigurations"
 
+	// AppConfigGroup is the Group of OAM
+	AppConfigGroup = "core.oam.dev"
+	// AppConfigVersion is the version of OAM spec this admission controller could validate
+	AppConfigVersion = "v1alpha1"
+	// AppConfigCRD is the resources of the Application Configuration
+	AppConfigCRD = "applicationconfigurations"
+	// ComponentCRD is the resources of the Component
 	ComponentCRD = "componentschematics"
-	ScopeCRD     = "scopes"
-	TraitCRD     = "traits"
+	// ScopeCRD is the resources of the Scope
+	ScopeCRD = "scopes"
+	// TraitCRD is the resources of the Trait
+	TraitCRD = "traits"
 )
 
 const (

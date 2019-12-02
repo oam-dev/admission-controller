@@ -1,5 +1,7 @@
 # OAM Admission controller
 
+![](https://github.com/oam-dev/admission-controller/workflows/Go/badge.svg)
+
 Admission controller is used for mutating and validating OAM component, trait and application configuration.
 It is integrated with Kubernetes by [Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/).
 

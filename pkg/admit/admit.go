@@ -11,6 +11,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 )
 
+// Admit is the main object for admission controller
 type Admit struct {
 	Client            *versioned.Clientset
 	Factory           externalversions.SharedInformerFactory
@@ -20,6 +21,7 @@ type Admit struct {
 	appConfigInformer v1alpha1.ApplicationConfigurationInformer
 }
 
+// New is the entrance of getting an Admit object
 func New() (*Admit, error) {
 	cfg, err := config.GetConfig()
 	if err != nil {

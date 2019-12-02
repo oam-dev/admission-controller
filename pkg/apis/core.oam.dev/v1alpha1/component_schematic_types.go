@@ -11,6 +11,7 @@ const (
 	UDP              = "UDP"
 )
 
+// Workload settings describe the configuration for a workload.
 type WorkloadSetting struct {
 	Name          string        `json:"name"`
 	Description   string        `json:"description,omitempty"`
@@ -34,9 +35,9 @@ type Memory struct {
 	Required string `json:"required"`
 }
 
-/// GPU describes a Container's need for a GPU.
-///
-/// The minimum number of gpus required for running this container.
+// GPU describes a Container's need for a GPU.
+//
+// The minimum number of gpus required for running this container.
 type GPU struct {
 	Required float64 `json:"required"`
 }
@@ -78,11 +79,13 @@ type Disk struct {
 	Ephemeral bool   `json:"ephemeral,omitempty"`
 }
 
+// ExtendedResource give extension ability
 type ExtendedResource struct {
 	Name     string `json:"name"`
 	Required string `json:"required"`
 }
 
+/// Resources defines the resources required by a container.
 type Resources struct {
 	Cpu      CPU                `json:"cpu"`
 	Memory   Memory             `json:"memory"`
@@ -91,37 +94,47 @@ type Resources struct {
 	Extended []ExtendedResource `json:"extended,omitempty"`
 }
 
+// Env describes an environment variable for a container.
 type Env struct {
 	Name      string `json:"name"`
 	Value     string `json:"value,omitempty"`
 	FromParam string `json:"fromParam,omitempty"`
 }
 
+// Port describes a port on a Container.
 type Port struct {
 	Name          string       `json:"name"`
 	ContainerPort int32        `json:"port"`
 	Protocol      PortProtocol `json:"protocol,omitempty"`
 }
 
+// Exec describes a shell command, as an array, for execution in a Container.
 type Exec struct {
 	Command []string `json:"command"`
 }
 
+/// HttpHeader describes an HTTP header.
+///
+/// Headers are not stored as a map of name/value because the same header is allowed
+/// multiple times.
 type HttpHeader struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
 }
 
+/// HttpGet describes an HTTP GET request used to probe a container.
 type HttpGet struct {
 	Path        string       `json:"path"`
 	Port        int32        `json:"port"`
 	HttpHeaders []HttpHeader `json:"httpHeaders"`
 }
 
+/// TcpSocket defines a socket used for health probing.
 type TcpSocket struct {
 	Port int32 `json:"port"`
 }
 
+// HealthProbe describes a probe used to check on the health of a Container.
 type HealthProbe struct {
 	Exec                *Exec      `json:"exec,omitempty"`
 	HttpGet             *HttpGet   `json:"httpGet,omitempty"`
@@ -133,12 +146,14 @@ type HealthProbe struct {
 	FailureThreshold    int32      `json:"failureThreshold,omitempty"`
 }
 
+// ConfigFile describes locations to write configuration as files accessible within the container
 type ConfigFile struct {
 	Path      string `json:"path"`
 	Value     string `json:"value,omitempty"`
 	FromParam string `json:"fromParam,omitempty"`
 }
 
+// Container describes the container configuration for a Component.
 type Container struct {
 	Name            string       `json:"name"`
 	Image           string       `json:"image"`
