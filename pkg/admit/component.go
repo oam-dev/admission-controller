@@ -2,6 +2,7 @@ package admit
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/oam-dev/admission-controller/common"
 	"github.com/oam-dev/admission-controller/pkg/apis/core.oam.dev/v1alpha1"
@@ -31,9 +32,25 @@ func (a *Admit) ComponentSpec(ar v1beta1.AdmissionReview) *v1beta1.AdmissionResp
 		return common.ToErrorResponse(err)
 	}
 
+	if _, _, _, err := validateGVK(comp.Spec.WorkloadType); err != nil {
+		return common.ToErrorResponse(err)
+	}
 	reviewResponse := v1beta1.AdmissionResponse{}
 	reviewResponse.Allowed = true
 	return &reviewResponse
+}
+
+func validateGVK(gvk string) (g, v, k string, err error) {
+	parts := strings.Split(gvk, "/")
+	if len(parts) != 2 {
+		return "", "", "", fmt.Errorf("missing version and kind in workload type")
+	}
+
+	vk := strings.Split(parts[1], ".")
+	if len(vk) != 2 {
+		return "", "", "", fmt.Errorf("missing kind in workload type")
+	}
+	return parts[0], vk[0], vk[1], nil
 }
 
 func validateWorker(comp *v1alpha1.ComponentSchematic) error {
