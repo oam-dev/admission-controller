@@ -181,10 +181,25 @@ func (a *Admit) checkAppScopeInstance(appConf *v1alpha1.ApplicationConfiguration
 
 func (a *Admit) checkTrait(appConf *v1alpha1.ApplicationConfiguration) error {
 	for _, v := range appConf.Spec.Components {
+		comp, err := a.componentInformer.Lister().ComponentSchematics(appConf.Namespace).Get(v.ComponentName)
+		if err != nil {
+			return err
+		}
 		for _, t := range v.Traits {
-			_, err := a.traitInformer.Lister().Traits(appConf.Namespace).Get(t.Name)
+			trait, err := a.traitInformer.Lister().Traits(appConf.Namespace).Get(t.Name)
 			if err != nil {
 				return err
+			}
+			//check trait could be apply to this kind of workload type
+			var ok bool
+			for _, apt := range trait.Spec.AppliesTo {
+				if apt == "*" || apt == comp.Spec.WorkloadType {
+					ok = true
+					break
+				}
+			}
+			if !ok {
+				return fmt.Errorf("trait %s can't be appiled to workload type %s", t.Name, comp.Spec.WorkloadType)
 			}
 			//TODO check trait properties in AppConfig really exist in that Trait spec
 		}
