@@ -5,12 +5,8 @@ PKG := "github.com/oam-dev/$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
-.PHONY: manifest
-manifest:
-	./hack/update-codegen.sh
-
 .PHONY: build
-build: manifest
+build:
 	docker build -t oamdev/admission:${TAG} .
 
 .PHONY: publish

@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/oam-dev/admission-controller/common"
-	"github.com/oam-dev/admission-controller/pkg/apis/core.oam.dev/v1alpha1"
+	"github.com/oam-dev/oam-go-sdk/apis/core.oam.dev/v1alpha1"
 	"k8s.io/api/admission/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/klog"

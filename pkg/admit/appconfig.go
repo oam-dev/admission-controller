@@ -7,7 +7,7 @@ import (
 
 	"github.com/oam-dev/admission-controller/common"
 
-	"github.com/oam-dev/admission-controller/pkg/apis/core.oam.dev/v1alpha1"
+	"github.com/oam-dev/oam-go-sdk/apis/core.oam.dev/v1alpha1"
 
 	"k8s.io/api/admission/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -111,16 +111,18 @@ func mutateFromVariable(appConfig *v1alpha1.ApplicationConfiguration) []patchOpe
 				})
 			}
 		}
-		for idx, v := range comp.Traits {
-			parsedValue, changed := parseFromVariable(v.Properties, appConfig.Spec.Variables)
-			if changed {
-				patches = append(patches, patchOperation{
-					Op:    "replace",
-					Path:  fmt.Sprintf("/spec/components/%d/traits/%d/properties", cid, idx),
-					Value: parsedValue,
-				})
+		/*
+			for idx, v := range comp.Traits {
+				parsedValue, changed := parseFromVariable(v.Properties, appConfig.Spec.Variables)
+				if changed {
+					patches = append(patches, patchOperation{
+						Op:    "replace",
+						Path:  fmt.Sprintf("/spec/components/%d/traits/%d/properties", cid, idx),
+						Value: parsedValue,
+					})
+				}
 			}
-		}
+		*/
 	}
 	//TODO make sure the type of properties in scope binding, if they will contain fromVariable function call, mutate it
 	return patches
@@ -209,7 +211,7 @@ func (a *Admit) checkTrait(appConf *v1alpha1.ApplicationConfiguration) error {
 
 func (a *Admit) checkAppScope(appConf *v1alpha1.ApplicationConfiguration) error {
 	for _, v := range appConf.Spec.Scopes {
-		scope, err := a.scopeInformer.Lister().Scopes(appConf.Namespace).Get(v.Name)
+		scope, err := a.scopeInformer.Lister().ApplicationScopes(appConf.Namespace).Get(v.Name)
 		if err != nil {
 			return err
 		}
