@@ -5,7 +5,7 @@ import (
 
 	"github.com/oam-dev/admission-controller/common"
 
-	"github.com/oam-dev/admission-controller/pkg/apis/core.oam.dev/v1alpha1"
+	"github.com/oam-dev/oam-go-sdk/apis/core.oam.dev/v1alpha1"
 	"github.com/stretchr/testify/assert"
 )
 

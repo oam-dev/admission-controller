@@ -3,10 +3,10 @@ package admit
 import (
 	"time"
 
-	"github.com/oam-dev/admission-controller/pkg/client/informers/externalversions/core.oam.dev/v1alpha1"
+	"github.com/oam-dev/oam-go-sdk/pkg/client/informers/externalversions/core.oam.dev/v1alpha1"
 
-	"github.com/oam-dev/admission-controller/pkg/client/clientset/versioned"
-	"github.com/oam-dev/admission-controller/pkg/client/informers/externalversions"
+	"github.com/oam-dev/oam-go-sdk/pkg/client/clientset/versioned"
+	"github.com/oam-dev/oam-go-sdk/pkg/client/informers/externalversions"
 	"k8s.io/client-go/tools/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 )
@@ -17,7 +17,7 @@ type Admit struct {
 	Factory           externalversions.SharedInformerFactory
 	componentInformer v1alpha1.ComponentSchematicInformer
 	traitInformer     v1alpha1.TraitInformer
-	scopeInformer     v1alpha1.ScopeInformer
+	scopeInformer     v1alpha1.ApplicationScopeInformer
 	appConfigInformer v1alpha1.ApplicationConfigurationInformer
 }
 
@@ -36,7 +36,7 @@ func New() (*Admit, error) {
 	componentInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{})
 	traitInformer := factory.Core().V1alpha1().Traits()
 	traitInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{})
-	scopeInformer := factory.Core().V1alpha1().Scopes()
+	scopeInformer := factory.Core().V1alpha1().ApplicationScopes()
 	scopeInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{})
 	appConfigInformer := factory.Core().V1alpha1().ApplicationConfigurations()
 	appConfigInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{})
