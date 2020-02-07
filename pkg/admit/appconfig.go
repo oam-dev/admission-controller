@@ -166,8 +166,8 @@ func (a *Admit) checkComponent(appConf *v1alpha1.ApplicationConfiguration) error
 				for _, c := range comp.Spec.Containers {
 					for _, v := range c.Resources.Volumes {
 						//TODO: check the volumeName from the Trait to match the disk volume name
-						if v.Disk.Ephemeral{
-							return fmt.Errorf("Container `%s` has a volumn `%s` with ephemeral volumne so it can't have" +
+						if v.Disk.Ephemeral {
+							return fmt.Errorf("Container `%s` has a volumn `%s` with ephemeral volumne so it can't have"+
 								" traint `%s` of type volume-mounter", c.Name, v.Name, t.Name)
 						}
 					}
