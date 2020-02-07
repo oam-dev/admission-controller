@@ -144,12 +144,12 @@ func parseFromVariable(value string, variables []v1alpha1.Variable) (string, boo
 }
 
 func (a *Admit) checkComponent(appConf *v1alpha1.ApplicationConfiguration) error {
-	for _, v := range appConf.Spec.Components {
-		comp, err := a.componentInformer.Lister().ComponentSchematics(appConf.Namespace).Get(v.ComponentName)
+	for _, component := range appConf.Spec.Components {
+		comp, err := a.componentInformer.Lister().ComponentSchematics(appConf.Namespace).Get(component.ComponentName)
 		if err != nil {
 			return err
 		}
-		for _, p := range v.ParameterValues {
+		for _, p := range component.ParameterValues {
 			var found = false
 			for _, cp := range comp.Spec.Parameters {
 				if cp.Name == p.Name {
@@ -158,9 +158,23 @@ func (a *Admit) checkComponent(appConf *v1alpha1.ApplicationConfiguration) error
 				}
 			}
 			if !found {
-				return fmt.Errorf("component %s don't have this parameter %s", v.ComponentName, p.Name)
+				return fmt.Errorf("component %s don't have this parameter %s", component.ComponentName, p.Name)
 			}
 		}
+		for _, t := range component.Traits {
+			if t.Name == "volume-mounter" {
+				for _, c := range comp.Spec.Containers {
+					for _, v := range c.Resources.Volumes {
+						//TODO: check the volumeName from the Trait to match the disk volume name
+						if v.Disk.Ephemeral {
+							return fmt.Errorf("Container `%s` has a volumn `%s` with ephemeral volumne so it can't have"+
+								" traint `%s` of type volume-mounter", c.Name, v.Name, t.Name)
+						}
+					}
+				}
+			}
+		}
+
 	}
 	return nil
 }
