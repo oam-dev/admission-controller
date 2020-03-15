@@ -64,7 +64,7 @@ webhooks:
       - apiGroups:   ["core.oam.dev"]
         apiVersions: ["v1alpha1"]
         operations:  ["CREATE", "UPDATE"]
-        resources:   ["scopes"]
+        resources:   ["applicationscopes"]
         scope:       "Namespaced"
     clientConfig:
       service:

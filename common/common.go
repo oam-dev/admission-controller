@@ -16,7 +16,7 @@ const (
 	// ComponentCRD is the resources of the Component
 	ComponentCRD = "componentschematics"
 	// ScopeCRD is the resources of the Scope
-	ScopeCRD = "scopes"
+	ScopeCRD = "applicationscopes"
 	// TraitCRD is the resources of the Trait
 	TraitCRD = "traits"
 )
