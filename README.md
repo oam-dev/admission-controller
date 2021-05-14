@@ -1,3 +1,5 @@
+Note: please refer to https://github.com/oam-dev/kubevela for admission controller (validating and mutating) for OAM spec.
+
 # OAM Admission controller
 
 ![](https://github.com/oam-dev/admission-controller/workflows/Go/badge.svg)
